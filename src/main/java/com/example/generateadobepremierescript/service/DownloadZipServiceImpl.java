@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 @Service
+
 public class DownloadZipServiceImpl {
+
         public static void zip(String packageName) {
             String sourceDir =packageName;
-            String zipFile =packageName+ ".zip";
+            String zipFile = packageName+".zip";
 
             try {
                 zipDirectory(sourceDir, zipFile);
@@ -53,4 +55,5 @@ public class DownloadZipServiceImpl {
                 }
             }
         }
-}
+
+    }

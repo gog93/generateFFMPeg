@@ -16,11 +16,11 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class TextServiceImpl {
-    @Value("${upload.path}")
-    private static String filePath;
+//    @Value("${upload.path}")
+    private static String filePath= "C:\\myProjects\\generateAdobePremiereScript\\";
 
-    @Value("${source.dir}")
-    private static String directoryPath;
+//    @Value("${source.dir}")
+    private static String directoryPath="C:\\Users\\gohar\\Videos\\Captures";
 
 
     public void generateFFMpegCommand(String word, String text, String videoPackageName) {
@@ -84,27 +84,46 @@ public class TextServiceImpl {
     public void checkVideoName(String videoNameToCheck, String videoFileName, String videoPackageName) throws IOException {
 
         File directory = new File(directoryPath);
-        if (!directory.exists() || !directory.isDirectory()) {
-            System.out.println("Error: The specified directory does not exist or is not a directory.");
-        }
-
         File[] files = directory.listFiles();
-        if (files == null) {
-            System.out.println("Error: Failed to retrieve files from the directory.");
-        }
 
-        for (File file : files) {
-            if (file.isFile()) {
-                String videoName = file.getName();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    String videoName = file.getName();
 
-                if (videoName.equalsIgnoreCase(videoNameToCheck)) {
-                    moveVideosDir(videoNameToCheck, directoryPath, videoPackageName);
-                    // Set the file path
-                    String filePathWithVideoName = videoPackageName + videoFileName;
-                    writeInVideoFileName(filePathWithVideoName, file.getName());
+                    if (videoName.equalsIgnoreCase(videoNameToCheck)) {
+                        moveVideosDir(videoNameToCheck, directoryPath, videoPackageName);
 
+                        // Set the file path
+                        String filePathWithVideoName = videoPackageName + videoFileName;
+                        writeInVideoFileName(filePathWithVideoName, file.getName());
+                    }
+                } else if (file.isDirectory()) {
+                    // Check the files in the subdirectory
+                    String subdirectoryPath = file.getAbsolutePath();
+                    File subdirectory = new File(subdirectoryPath);
+                    File[] subdirectoryFiles = subdirectory.listFiles();
+
+                    if (subdirectoryFiles != null) {
+                        for (File subdirectoryFile : subdirectoryFiles) {
+                            if (subdirectoryFile.isFile()) {
+                                String videoName = subdirectoryFile.getName();
+
+                                if (videoName.equalsIgnoreCase(videoNameToCheck)) {
+                                    moveVideosDir(videoNameToCheck, subdirectoryPath, videoPackageName);
+
+                                    // Set the file path
+                                    String filePathWithVideoName = videoPackageName + videoFileName;
+                                    writeInVideoFileName(filePathWithVideoName, subdirectoryFile.getName());
+                                }
+                            }
+                        }
+                    }
                 }
             }
+        } else {
+            System.out.println("Directory does not exist or an I/O error occurred");
+
         }
 
     }

@@ -17,8 +17,8 @@ import java.util.zip.ZipInputStream;
 
 @Service
 public class ZipUploadService {
-    @Value("${source.dir}")
-    private static String uploadPath;
+//    @Value("${source.dir}")
+    private static String uploadPath="C:\\Users\\gohar\\Videos\\Captures\\";
 
     public boolean uploadAndExtractFiles(MultipartFile file) {
         if (file.isEmpty()) {
