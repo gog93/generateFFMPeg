@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "rising-study-393313",
+  "private_key_id": "f46ae6effe46a08d7cb36955c5f52bf561457e67",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC7WUCWUiFu3u5J\nJwJi1fzYFb1sDu27HPwv8z7O4Fa+n1z3tTBNqxvn6PupC+PonbBXruHPoGV/ZtJH\n3IHKNrEXBywASyjj9Lf2tODm0ZGPvkjd7sXnmbNWVYD+XE6vzZyRZ8gRLEigC/8k\n+Lsbxa4PLDirdvEYCjLrid5oawV9L10EuD5IF5T1JyHAG7OTf/M/7JTKyAZbTIXt\nMCwrl3pKsl0gijEOgKLGtWqbmYls8dQ5WcyTITnCcAl1Nb5bE0wbHnjKiXOph+qZ\nbNW9JJhE4xA9JCvB0tesGkq7zSbtSsmv5yT+dSh4iGZ5C/x09H8CwfaXHp8NEWvl\nqOMdbyWTAgMBAAECggEAFUZSisoYfit2T2aiIztzQyMzh6X/AhINuJuR730ol0H9\nP9XaqTSRQ9nAW5cm54n3S1Bn1846Pb2dNcgzvD+ksYhAy2cS5XwAjf/xUCoj3PkP\nSOst8cRm9JqwvhxuWma/bQBQ3FO1NZOB2El0j01N8Zl5yqLZnaYULTd9QvSa7Xb1\nwDqe0wOdky6J7x2SXxcH2Ha+XFa3eIO60cNRbYUUXGNzr4OdIq2yF81w1crpwAVJ\nVQi58WtM0F/In3CqWZxmhfYgL1+DOxcCo/shN258Mfl+IoWVn+ySZVLQzwO2pvgJ\nkNfUAAbXljzZiIABI0QFz9heLdexIWpSmb7DsSY6rQKBgQDqGujCPyo5qwQkPxiJ\n9hFZWsDEKHnHnTg55bKGdoZZXn+rRMEWmdkhrZy3YgDTz72eUSI9wF67O8E6s0DE\nymbIsEfvxvRZLGk0C8HYs4TcbacYT8ozRRGGb7umrcG0qEdAChYS+dI/f4M57JSR\nJj+IX2VdrBtoX8FjXIH8c1W3/wKBgQDM3t7Uhr34MEJhdf+2MNDuhYo+wKR9KBDe\nWviwsRZ/tvvvdjsLI2S6MDMf/Dt84Dp0CAigp2i+/SGJ2vXkxez9JydYCrsEwzRb\n7MVNYoUphxuVi/St0bUIIYaaCgxIjJ6SJ22v0iUJNoKGTL3nIhA/tgRKI1VNDinY\nOfFAvAAybQKBgALN2bXh7c6NBtqsSs30PZb1aFOxLGxArNi8sJu9tbRCVoMlqq5r\nn1cw7iygJuRim6HW1PMqZ7gUaica2I7C4eJLgkET//9Fcekmrua6l7/QLG01H3Xn\nwOL8WaIQeL6COYBB3qvRhDwwedDqzYjDjYVDp0Is+pMQeo+HHyN3+jHfAoGAHz6i\nR1FhaZeamBiR7ixVwPrW0ak5rOjOYcsIAJKRdtrmY2fpq1Izi33MXkVuoSXlZErR\nXgcKH46lbcvaEpDpCtbM1k2Upi5LLvXWRW4QFvxHBbC5mUTRUjMivx1nMC1aBbpD\nrTvkcBpDH85WbAiy57SPxOrMmJrfYN29YH0LnqUCgYBkSS4HOMo7Ya5vWKYpCK7K\nc5WyVhX+ErapmGpEeBHg2a2YqvVhrYYMhFdP0s5a5dnT0jdDFnkR6PIviob7YTUo\n1YoMFXIfg4b9xu9G8+UQ9zSdA3J5nN9zRSU1uuiwIjT5kyAemSWcjAkJZVkCdpYz\nf12Ss7sYVpG/brz3JW3xgg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "forwork@rising-study-393313.iam.gserviceaccount.com",
+  "client_id": "100715247819370637487",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/forwork%40rising-study-393313.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
