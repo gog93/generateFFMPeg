@@ -1,7 +1,6 @@
 package com.example.generateadobepremierescript.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -17,23 +16,24 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class TextServiceImpl {
 //    @Value("${upload.path}")
-    private static String filePath= "C:\\myProjects\\generateAdobePremiereScript\\";
+    private static String filePath= "C:\\Users\\gohar\\Desktop\\generateAdobePremiereScript\\";
 
 //    @Value("${source.dir}")
     private static String directoryPath="C:\\Users\\gohar\\Videos\\Captures";
 
 
-    public void generateFFMpegCommand(String word, String text, String videoPackageName) {
-        String outputVideoPath = UUID.randomUUID() + ".mp4"; // Replace with the desired path for the output video
+    public void generateFFMpegCommand(String text, String videoPackageName, String outputVideoPath, String ffmpegCommand) {
         String videoFileName = videoPackageName + text;
-        String ffmpegCommand = "ffmpeg -f lavfi -i color=c=black:s=1280x720:r=30:d=5 -vf drawtext=text='" + word + "':fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50 " + videoPackageName + outputVideoPath;
         System.out.println("FFmpeg Command: " + ffmpegCommand);
         writeInVideoFileName(videoFileName, outputVideoPath);
 
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", ffmpegCommand);
             processBuilder.inheritIO(); // Redirect input, output, and error streams to the console
+
             Process process = processBuilder.start();
+            System.out.println("-y");
+
             int exitCode = process.waitFor();
 
             if (exitCode == 0) {
@@ -51,19 +51,56 @@ public class TextServiceImpl {
     public void read(String text, String videoPackageName) {
         String videoFileName = UUID.randomUUID() + ".txt";
         String word = "";
+        int count = 1;
+        boolean forAppend=false;
+        int wordCount=0;
 
         try {
 
             Scanner scanner = new Scanner(new File(text));
 
             while (scanner.hasNext()) {
-                word = scanner.next();
-                if (word.startsWith("<") && word.endsWith(">")) {
-                    String b = word.replaceAll("<|>", "");
-                    checkVideoName(b, videoFileName, videoPackageName);
+                String videoName = count + ".mp4";
 
-                } else {
-                    generateFFMpegCommand(word, videoFileName, videoPackageName);
+                word = scanner.next();
+                if (word.startsWith("<",0) && !word.startsWith("/",1) ) {
+                    forAppend=false;
+                    String ffmpegCommand = "ffmpeg -f lavfi -i color=c=black:s=1280x720:r=30:d=5 -vf drawtext=textfile=textfile.txt:fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50 " + videoPackageName + videoName;
+
+                    generateFFMpegCommand(videoFileName, videoPackageName, videoName, ffmpegCommand);
+                    String b = word.replaceAll("<|>", "");
+                    ++count;
+                    videoName=count+ ".mp4";
+                    checkVideoName(b, videoFileName, videoPackageName, videoName);
+
+                }else if (word.startsWith("</")){
+                    forAppend=false;
+                   String c= videoName;
+                    String tempOutput = "temp.mp4";
+
+                    String a=" ffmpeg -y -i "+videoPackageName +videoName+" -vf \"drawtext=textfile=textfile.txt:fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50\" "+videoPackageName+tempOutput;
+                    String ffmpegCommand = "ffmpeg -f lavfi -i color=c=black:s=1280x720:r=30:d=5 -vf drawtext=textfile=textfile.txt:fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50 " + videoPackageName + videoName;
+
+                    generateFFMpegCommand(videoFileName, videoPackageName, videoName, a);
+
+                    Files.move(Paths.get(videoPackageName + tempOutput), Paths.get(videoPackageName + videoName), StandardCopyOption.REPLACE_EXISTING);
+
+                }else {
+                    try {
+                        FileWriter out = new FileWriter("textfile.txt", forAppend);
+                        forAppend=true;
+
+                        out.write(word);
+                        if (wordCount>=10){
+                            out.append("\n");
+                            wordCount=0;
+                        }
+                        out.append(" ");
+                        out.close();
+                        ++wordCount;
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
 
                 }
 
@@ -73,7 +110,7 @@ public class TextServiceImpl {
             scanner.close();
 
             if (isVideoFileLineCountGreaterThanTwo(videoPackageName, videoFileName)) {
-                concatVideos(videoPackageName, videoFileName);
+                concatVideos(videoPackageName, videoFileName,++count);
             }
 
         } catch (IOException e) {
@@ -81,7 +118,7 @@ public class TextServiceImpl {
         }
     }
 
-    public void checkVideoName(String videoNameToCheck, String videoFileName, String videoPackageName) throws IOException {
+    public void checkVideoName(String videoNameToCheck, String videoFileName, String videoPackageName, String name) throws IOException {
 
         File directory = new File(directoryPath);
         File[] files = directory.listFiles();
@@ -93,6 +130,10 @@ public class TextServiceImpl {
 
                     if (videoName.equalsIgnoreCase(videoNameToCheck)) {
                         moveVideosDir(videoNameToCheck, directoryPath, videoPackageName);
+                        Path sourcePath = Paths.get(videoPackageName+"\\"+videoNameToCheck+".mp4");
+                        Path destinationPath = Paths.get(videoPackageName+"\\"+name+".mp4");
+
+                        Files.move(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
 
                         // Set the file path
                         String filePathWithVideoName = videoPackageName + videoFileName;
@@ -111,10 +152,14 @@ public class TextServiceImpl {
 
                                 if (videoName.equalsIgnoreCase(videoNameToCheck)) {
                                     moveVideosDir(videoNameToCheck, subdirectoryPath, videoPackageName);
+                                    Path sourcePath = Paths.get(videoPackageName+"\\"+videoNameToCheck);
+                                    Path destinationPath = Paths.get(videoPackageName+"\\"+name);
+
+                                    Files.move(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
 
                                     // Set the file path
                                     String filePathWithVideoName = videoPackageName + videoFileName;
-                                    writeInVideoFileName(filePathWithVideoName, subdirectoryFile.getName());
+                                    writeInVideoFileName(filePathWithVideoName, name);
                                 }
                             }
                         }
@@ -128,8 +173,8 @@ public class TextServiceImpl {
 
     }
 
-    public void concatVideos(String filePath, String videoFileName) {
-        String concatedVideoName = UUID.randomUUID().toString() + ".mp4";
+    public void concatVideos(String filePath, String videoFileName,int count) {
+        String concatedVideoName = count + ".mp4";
         String concatCommand = "ffmpeg -f concat -safe 0 -i " + videoFileName + " -c copy " + filePath + "concated-" + concatedVideoName;
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", concatCommand);

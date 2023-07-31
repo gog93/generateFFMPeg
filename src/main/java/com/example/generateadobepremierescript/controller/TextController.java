@@ -49,6 +49,7 @@ public class TextController {
         modelMap.addAttribute("model", text);
         String packageName = textService.write("text.txt", text.getDescription());
         DownloadZipServiceImpl.zip(packageName);
+        text.setDescription(null);
         text.setPackageName(packageName);
         textRepository.save(text);
         modelMap.addAttribute("text", text);
