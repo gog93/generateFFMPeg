@@ -65,12 +65,13 @@ public class TextServiceImpl {
                 String videoName = count + ".mp4";
 
                 word = scanner.next();
+
                 if (word.startsWith("<",0) && !word.startsWith("/",1) ) {
                     forAppend=false;
                     String ffmpegCommand = "ffmpeg -f lavfi -i color=c=black:s=1280x720:r=30:d=5 -vf drawtext=textfile="+textFile+":fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50 " + videoPackageName + videoName;
 
                     generateFFMpegCommand(videoFileName, videoPackageName, videoName, ffmpegCommand);
-                    String b = word.replaceAll("<|>", "");
+                    String b = word.replaceAll("<|>", "").concat(".mp4");
                     ++count;
                     videoName=count+ ".mp4";
                     checkVideoName(b, videoFileName, videoPackageName, videoName);
@@ -203,11 +204,12 @@ public class TextServiceImpl {
         if (!mk.isDirectory()) {
             mk.mkdir();
         }
+        String newText = text.replaceAll("<", " <").replaceAll(">", "> ");
 
         try {
             File file = new File(fileText);
             FileWriter writer = new FileWriter(file);
-            writer.write(text);
+            writer.write(newText);
             writer.close();
             System.out.println("Text written to text.txt successfully.");
             if (fileText.equals("text.txt")) {

@@ -14,6 +14,6 @@ server:
   port: 8080
 
 upload:
-  path: C:\Users\gohar\Desktop\generateAdobePremiereScript\
+  path: C:\Users\$$$\Desktop\generateAdobePremiereScript\
 source:
-  dir: C:\Users\gohar\Videos\Captures
+  dir: C:\Users\$$$\Videos\Captures

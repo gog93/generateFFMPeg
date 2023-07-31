@@ -1,0 +1,22 @@
+this project generates an ffmpeg command based on the text provided by the user, which creates videos.
+
+download the ffmpeg program to run the project․ you need to download the latest version,
+which will have the drawText filter.
+
+There are two directories in the application․yml file.
+upload:
+  path: C:\Users\&&&\Desktop\generateAdobePremiereScript\
+source:
+  dir: C:\Users\&&&\Videos\Captures
+
+  upload․path- is the directory where we will create and from where we will download the created videos
+  source.dir- The source․dir is the directory where user upload zip the videos whose names are written in the tags.
+
+  change these directories to suit your computer
+
+the user should write the text to be created in the text field and click upload zip
+and upload the videos whose names are written in the tags.
+
+
+put the source.dir in the directory, there will be the videos whose names are written in the tags
+
