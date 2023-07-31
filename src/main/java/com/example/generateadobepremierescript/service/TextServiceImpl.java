@@ -55,6 +55,7 @@ public class TextServiceImpl {
         int count = 1;
         boolean forAppend=false;
         int wordCount=0;
+        String textFile=UUID.randomUUID()+".txt";
 
         try {
 
@@ -66,7 +67,7 @@ public class TextServiceImpl {
                 word = scanner.next();
                 if (word.startsWith("<",0) && !word.startsWith("/",1) ) {
                     forAppend=false;
-                    String ffmpegCommand = "ffmpeg -f lavfi -i color=c=black:s=1280x720:r=30:d=5 -vf drawtext=textfile=textfile.txt:fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50 " + videoPackageName + videoName;
+                    String ffmpegCommand = "ffmpeg -f lavfi -i color=c=black:s=1280x720:r=30:d=5 -vf drawtext=textfile="+textFile+":fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50 " + videoPackageName + videoName;
 
                     generateFFMpegCommand(videoFileName, videoPackageName, videoName, ffmpegCommand);
                     String b = word.replaceAll("<|>", "");
@@ -79,16 +80,16 @@ public class TextServiceImpl {
                    String c= videoName;
                     String tempOutput = "temp.mp4";
 
-                    String a=" ffmpeg -y -i "+videoPackageName +videoName+" -vf \"drawtext=textfile=textfile.txt:fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50\" "+videoPackageName+tempOutput;
-                    String ffmpegCommand = "ffmpeg -f lavfi -i color=c=black:s=1280x720:r=30:d=5 -vf drawtext=textfile=textfile.txt:fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50 " + videoPackageName + videoName;
+//                    String a=" ffmpeg -y -i "+videoPackageName +videoName+" -vf \"drawtext=textfile=textfile.txt:fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50\" "+videoPackageName+tempOutput;
+                    String ffmpegCommand=" ffmpeg -y -i "+videoPackageName +videoName+" -vf \"drawtext=textfile="+textFile.replace("\\", "\\\\")+":fontfile=OpenSans-Semibold.ttf:fontsize=28:fontcolor=white:x=50:y=50\" "+videoPackageName+tempOutput;
 
-                    generateFFMpegCommand(videoFileName, videoPackageName, videoName, a);
+                    generateFFMpegCommand(videoFileName, videoPackageName, videoName, ffmpegCommand);
 
                     Files.move(Paths.get(videoPackageName + tempOutput), Paths.get(videoPackageName + videoName), StandardCopyOption.REPLACE_EXISTING);
 
                 }else {
                     try {
-                        FileWriter out = new FileWriter("textfile.txt", forAppend);
+                        FileWriter out = new FileWriter(textFile, forAppend);
                         forAppend=true;
 
                         out.write(word);
