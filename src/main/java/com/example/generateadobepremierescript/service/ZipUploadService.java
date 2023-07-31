@@ -17,10 +17,11 @@ import java.util.zip.ZipInputStream;
 
 @Service
 public class ZipUploadService {
-//    @Value("${source.dir}")
-    private static String uploadPath="C:\\Users\\gohar\\Videos\\Captures\\";
+    @Value("${source.dir}")
+    private  String source_dir;
 
     public boolean uploadAndExtractFiles(MultipartFile file) {
+        String uploadPath=source_dir+"\\";
         if (file.isEmpty()) {
             // Handle empty file case
             return false;

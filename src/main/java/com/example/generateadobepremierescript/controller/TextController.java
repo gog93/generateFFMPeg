@@ -26,6 +26,7 @@ public class TextController {
     private final TextServiceImpl textService;
     private final TextRepository textRepository;
     private final ZipUploadService zipUploadService;
+    private final DownloadZipServiceImpl downloadZipService;
 
     @GetMapping()
     public String adobe(ModelMap model) {
@@ -48,7 +49,7 @@ public class TextController {
 
         modelMap.addAttribute("model", text);
         String packageName = textService.write("text.txt", text.getDescription());
-        DownloadZipServiceImpl.zip(packageName);
+        downloadZipService.zip(packageName);
         text.setDescription(null);
         text.setPackageName(packageName);
         textRepository.save(text);

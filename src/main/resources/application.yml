@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/generateAdobeScript
+    username: postgres
+    password: root
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080
+
+upload:
+  path: C:\Users\gohar\Desktop\generateAdobePremiereScript\
+source:
+  dir: C:\Users\gohar\Videos\Captures

@@ -1,6 +1,7 @@
 package com.example.generateadobepremierescript.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -15,11 +16,11 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class TextServiceImpl {
-//    @Value("${upload.path}")
-    private static String filePath= "C:\\Users\\gohar\\Desktop\\generateAdobePremiereScript\\";
+    @Value("${upload.path}")
+    private String upload_path;
 
-//    @Value("${source.dir}")
-    private static String directoryPath="C:\\Users\\gohar\\Videos\\Captures";
+    @Value("${source.dir}")
+    private String source_dir;
 
 
     public void generateFFMpegCommand(String text, String videoPackageName, String outputVideoPath, String ffmpegCommand) {
@@ -120,7 +121,7 @@ public class TextServiceImpl {
 
     public void checkVideoName(String videoNameToCheck, String videoFileName, String videoPackageName, String name) throws IOException {
 
-        File directory = new File(directoryPath);
+        File directory = new File(source_dir);
         File[] files = directory.listFiles();
 
         if (files != null) {
@@ -129,7 +130,7 @@ public class TextServiceImpl {
                     String videoName = file.getName();
 
                     if (videoName.equalsIgnoreCase(videoNameToCheck)) {
-                        moveVideosDir(videoNameToCheck, directoryPath, videoPackageName);
+                        moveVideosDir(videoNameToCheck, source_dir, videoPackageName);
                         Path sourcePath = Paths.get(videoPackageName+"\\"+videoNameToCheck+".mp4");
                         Path destinationPath = Paths.get(videoPackageName+"\\"+name+".mp4");
 
@@ -196,7 +197,7 @@ public class TextServiceImpl {
 
     public String write(String fileText, String text) {
         String uu = UUID.randomUUID().toString();
-        String videoPackageName = filePath + uu + "\\";
+        String videoPackageName = upload_path + uu + "\\";
         File mk = new File(videoPackageName);
         if (!mk.isDirectory()) {
             mk.mkdir();

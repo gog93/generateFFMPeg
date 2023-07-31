@@ -1,5 +1,6 @@
 package com.example.generateadobepremierescript.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -11,10 +12,12 @@ import java.util.zip.ZipOutputStream;
 @Service
 
 public class DownloadZipServiceImpl {
+    @Value("${upload.path}")
+    private  String upload_path;
 
-        public static void zip(String packageName) {
-            String sourceDir =packageName;
-            String zipFile = packageName+".zip";
+        public  void zip(String packageName) {
+            String sourceDir =upload_path+ packageName;
+            String zipFile = upload_path+packageName+".zip";
 
             try {
                 zipDirectory(sourceDir, zipFile);
